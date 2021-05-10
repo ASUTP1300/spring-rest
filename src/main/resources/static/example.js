@@ -10,23 +10,21 @@ a = function (){
 a()
 
 
-
-    fetch("/admin2").then(
-        res=>{
+fetch("/admin2").then(
+    res => {
         res.json().then(
-            data=>{
+            data => {
                 console.log(data);
-              // if (data.length > 0) {
-              //     var temp = "";
-
-              //     data.forEach((u) => {
-              //         temp += "<tr>";
-              //         temp += "<td>" + u.firstName + "</td>";
-              //     })
-              //     $(document).getElementsById("data").innerHTML = temp;
-              // }
+                if (data.length > 0) {
+                    let temp = "";
+                    data.forEach((u) => {
+                            temp += "<tr>";
+                            temp += "<td>" + u.firstName + "</td>";
+                    })
+                    document.getElementById("data").innerHTML = temp;
+                }
             }
-        )
+            )
     }
 );
 

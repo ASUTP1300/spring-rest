@@ -55,7 +55,7 @@ public class AdminController {
         model.addAttribute("userActive", userActive);
         model.addAttribute("users", userService.listUsers());
         model.addAttribute("listRoles", listRoles);
-        return "admin/index";
+        return "admin/index2";
     }
 
 

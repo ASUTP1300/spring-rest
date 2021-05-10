@@ -137,25 +137,7 @@
                                     </tr>
                                     </thead>
                                     <tbody id="data">
-                                    <tr th:each="user:${users}">
-                                        <td th:utext="${user.id}">No</td>
-                                        <td th:utext="${user.firstName}">No</td>
-                                        <td th:utext="${user.lastName}">No</td>
-                                        <td th:utext="${user.email}">No</td>
-                                        <td>
-    										 <span th:each="role:${user.roles}"
-                                                   th:utext="${#strings.substring(role.role,5) + '; '}"> No
-    										 </span>
-                                        </td>
-                                        <td>
-                                            <a th:href="@{/admin/getOne/(id=${user.id})}" class="btn btn-info eBtn"
-                                               id="butn">Edit</a>
-                                        </td>
-                                        <td>
-                                            <a th:href="@{/admin/getOne/(id=${user.id})}" class="btn btn-danger delBtn"
-                                               id="butn2">Delete</a>
-                                        </td>
-                                    </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -197,7 +179,7 @@
                                         <br/>
                                     </form>
                                 </div>
-                            </---div>
+                            </div>
                         </div>
                     </div>
                 </div>
