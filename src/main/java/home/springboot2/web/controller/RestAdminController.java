@@ -3,6 +3,8 @@ package home.springboot2.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,12 @@ import home.springboot2.web.model.User;
 import home.springboot2.web.repository.RoleRepository;
 import home.springboot2.web.service.RoleServiceImp;
 import home.springboot2.web.service.UserService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.net.URI;
+import java.net.URL;
 import java.security.Principal;
 import java.util.List;
 
@@ -62,20 +67,24 @@ public class RestAdminController {
         return userService.listUsers();
     }
 
+    @GetMapping(value = "/roles")
+    public List<String> allRoles() {
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
-
-        return "admin/getById";
+        Role role3 = GrantedAuthorityDefaults;
+        return roleRepository.;
     }
 
-    @PostMapping
-    public String create(@ModelAttribute("user") User user,
-                         @RequestParam(required = false, name = "listRolesResponse") List<String> roles) {
-        user.setRoles(roleService.getRoleByName(roles));
-        userService.add(user);
-        return "redirect:/admin";
+
+    @GetMapping("/{id}")
+    public User show(@PathVariable("id") long id, Model model) {
+       // model.addAttribute("user", userService.getById(id));
+
+        return userService.getById(id);
+    }
+
+    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User createWithLocation(@RequestBody User user){
+     return    userService.save(user);
     }
 
     @PostMapping("/{id}")

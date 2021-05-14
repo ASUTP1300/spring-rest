@@ -1,6 +1,8 @@
 package home.springboot2.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +52,12 @@ public class AdminController {
         User user = new User();
         User userActive = userService.getByFirstName(principal.getName());
         List<Role> listRoles = roleRepository.findAll();
+
+        Authentication logInUser = SecurityContextHolder.getContext().getAuthentication();
+
+        User user4 = (User) logInUser.getPrincipal();
+
+        user4.getRoles().forEach(s->System.out.println(s.getRole()));
 
         model.addAttribute("user", user);
         model.addAttribute("userActive", userActive);

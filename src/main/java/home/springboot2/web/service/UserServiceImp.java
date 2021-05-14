@@ -43,6 +43,13 @@ public class UserServiceImp implements UserService {
             userRepository.save(user);
     }
 
+    @Override
+    public User save(User user){
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
+    }
+
     @Transactional
     @Override
     public void update(User user) {

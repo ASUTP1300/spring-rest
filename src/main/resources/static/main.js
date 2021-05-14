@@ -25,6 +25,15 @@ $('document').ready(function () {
         $('.myForm1 #EditModal').modal();
     });
 
+
+
+
+
+
+
+
+
+
     /*
      Функция на событие: пользователей нажал кнопку "DELETE"
     */

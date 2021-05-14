@@ -17,4 +17,6 @@ public interface UserService {
     User getByFirstName(String firstname);
 
     List<User> listUsers();
+
+    public User save(User user);
 }
