@@ -10,7 +10,7 @@ public interface RoleService {
 
     public Set<Role> getRoleByName(List<String> listStringRoles);
 
-
+    public List<String> getNamesRole(List<Role> listRoles);
 
 
 }

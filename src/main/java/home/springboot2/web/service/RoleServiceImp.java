@@ -25,4 +25,9 @@ public class RoleServiceImp implements RoleService {
                 .map(s -> roleRepository.findByRole(s))
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    public List<String> getNamesRole(List<Role> listRoles) {
+        return listRoles.stream().map(t->t.getRole().substring(5)).collect(Collectors.toList());
+    }
 }

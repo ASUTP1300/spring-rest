@@ -9,6 +9,9 @@ a = function (){
 a()
 
 
+
+
+
 function role(roleArray){
   return  roleArray.forEach( (u2)=>{
         var role = u2.substring(5);
@@ -76,9 +79,9 @@ function editUser(id){
                         $('.myForm1 #firstName').val(data.firstName);
                         $('.myForm1 #lastName').val(data.lastName);
                         $('.myForm1 #email').val(data.email);
-                        $('.myForm1 #listRolesResponse').val(getAllRoles().role);
+                        $('.myForm1 #listRolesResponse').val(getAllRoles());
                         $.each(data.roleNames, function (index, value) {
-                                var role = value.role.substring(5);
+                                var role = value.substring(5);
                                 $('.myForm1 #listRolesResponse option:contains("' + role + '")').prop('selected', true);
                         })
                         $('.myForm1 #EditModal').modal();

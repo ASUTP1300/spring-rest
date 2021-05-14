@@ -99,10 +99,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-    @Bean
-    GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
-    }
+    //@Bean
+    //GrantedAuthorityDefaults grantedAuthorityDefaults() {
+    //    return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+    //}
 
 
 }

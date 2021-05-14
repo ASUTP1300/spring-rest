@@ -69,9 +69,7 @@ public class RestAdminController {
 
     @GetMapping(value = "/roles")
     public List<String> allRoles() {
-
-        Role role3 = GrantedAuthorityDefaults;
-        return roleRepository.;
+        return roleService.getNamesRole(roleRepository.findAll());
     }
 
 
