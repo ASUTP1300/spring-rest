@@ -56,13 +56,7 @@ public class AdminController {
         Authentication logInUser = SecurityContextHolder.getContext().getAuthentication();
 
         User user4 = (User) logInUser.getPrincipal();
-
-        user4.getRoles().forEach(s->System.out.println(s.getRole()));
-
-        model.addAttribute("user", user);
         model.addAttribute("userActive", userActive);
-        model.addAttribute("users", userService.listUsers());
-        model.addAttribute("listRoles", listRoles);
         return "admin/index2";
     }
 
@@ -74,13 +68,6 @@ public class AdminController {
         return "admin/getById";
     }
 
-    @PostMapping
-    public String create(@ModelAttribute("user") User user,
-                         @RequestParam(required = false, name = "listRolesResponse") List<String> roles) {
-        user.setRoles(roleService.getRoleByName(roles));
-        userService.add(user);
-        return "redirect:/admin";
-    }
 
     @PostMapping("/{id}")
     public String update(@ModelAttribute("user") User user,
@@ -96,17 +83,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/getOne")
-    @ResponseBody
-    public User getOne(long id) {
-        return userService.getById(id);
-    }
 
-    @PostMapping(value = "/update")
-    public String update2(@ModelAttribute("user") User user,
-                          @RequestParam("listRolesResponse") List<String> roles) {
-        user.setRoles(roleService.getRoleByName(roles));
-        userService.update(user);
-        return "redirect:/admin";
-    }
+
+
 }
