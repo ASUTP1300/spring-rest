@@ -85,19 +85,6 @@ public class RestAdminController {
      return    userService.save(user);
     }
 
-    @PostMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,
-                         @RequestParam("roleNames") List<String> roles) {
-        user.setRoles(roleService.getRoleByName(roles));
-        userService.update(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("/delete")
-    public String delete(@ModelAttribute("user") User user) {
-        userService.remove(user.getId());
-        return "redirect:/admin";
-    }
 
     @GetMapping("/getOne")
     @ResponseBody
@@ -105,11 +92,4 @@ public class RestAdminController {
         return userService.getById(id);
     }
 
-    @PostMapping(value = "/update")
-    public String update2(@ModelAttribute("user") User user,
-                          @RequestParam("listRolesResponse") List<String> roles) {
-        user.setRoles(roleService.getRoleByName(roles));
-        userService.update(user);
-        return "redirect:/admin";
-    }
 }

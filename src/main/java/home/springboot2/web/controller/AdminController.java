@@ -61,27 +61,27 @@ public class AdminController {
     }
 
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.getById(id));
+ //  @GetMapping("/{id}")
+ //  public String show(@PathVariable("id") long id, Model model) {
+ //      model.addAttribute("user", userService.getById(id));
 
-        return "admin/getById";
-    }
+ //      return "admin/getById";
+ //  }
 
 
-    @PostMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,
-                         @RequestParam("roleNames") List<String> roles) {
-        user.setRoles(roleService.getRoleByName(roles));
-        userService.update(user);
-        return "redirect:/admin";
-    }
+  // @PostMapping("/{id}")
+  // public String update(@ModelAttribute("user") User user,
+  //                      @RequestParam("roleNames") List<String> roles) {
+  //     user.setRoles(roleService.getRoleByName(roles));
+  //     userService.update(user);
+  //     return "redirect:/admin";
+  // }
 
-    @DeleteMapping("/delete")
-    public String delete(@ModelAttribute("user") User user) {
-        userService.remove(user.getId());
-        return "redirect:/admin";
-    }
+  //  @DeleteMapping("/delete")
+  //  public String delete(@ModelAttribute("user") User user) {
+  //      userService.remove(user.getId());
+  //      return "redirect:/admin";
+  //  }
 
 
 

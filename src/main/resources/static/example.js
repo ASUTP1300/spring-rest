@@ -1,4 +1,3 @@
-updateTable();
 
 a = function (){
     const v = $("<div id='rrr' name = 'www'></div>");
@@ -40,9 +39,7 @@ function getAllRoles(){
 
 getAllRoles();
 
-
-
-updateTable = function () {
+ f = function updateTable() {
     fetch("/admin2").then(
         res => {
             res.json().then(
@@ -71,6 +68,7 @@ updateTable = function () {
 
 }
 
+f()
 
 function editUser(id){
     fetch("/admin2/" + id).then(
@@ -250,8 +248,8 @@ $('document2').ready(function () {
                 .map(input => dest[input.name] = input.value);
             console.log(dest);
             editTable(dest);
-            //putData("/admin2/save", dest);
-            $(".myForm1").hide()
+           // putData("/admin2/save", dest);
+            $(".myForm1").modal("hide");
 
         })
 });

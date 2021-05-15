@@ -230,10 +230,7 @@
                         <div class="form-group">
                             <label for="listRolesResponse" class="col-form-label">Role:</label>
                             <select multiple class="form-control" id="listRolesResponse"  name="listRolesResponse">
-                                <option
-                                        th:each="role : ${listRoles}"
-                                        th:value="${role.role}"
-                                        th:text="${#strings.substring(role.role,5)}">
+                                <option>
                                 </option>
                             </select>
 
@@ -242,7 +239,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"  data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" id="saveEdit">Save</button>
+                        <button type="button" class="btn btn-primary" id="saveEdit">Save</button>
                     </div>
                 </div>
             </div>
@@ -317,8 +314,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../static/main.js" th:src="@{/main.js}"> </script>
-<script type="text/javascript" src="../../static/example.js" th:src="@{/example.js}"> </script>
+<script  src="/example.js" > </script>
 
 </body>
 </html>
