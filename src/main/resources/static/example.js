@@ -1,16 +1,4 @@
 
-a = function (){
-    const v = $("<div id='rrr' name = 'www'></div>");
-        v.attr('id', '666');
-        console.log(v.attr('id'));
-        console.log(v.attr('name'));
-}
-
-a()
-
-
-
-
 
 function role(roleArray){
   return  roleArray.forEach( (u2)=>{
@@ -97,66 +85,6 @@ function editUser(id){
 }
 
 
-
-
-// $('document').ready(function () {
-//
-//    /*
-//     Функция на событие: пользователей нажал кнопку "EDIT"
-//    */
-//    $(`#saveEdit`).on('click', function (event) {
-//
-//        event.preventDefault();
-//
-//        let formData = {};
-//        formData['id'] =  $('.myForm1 #id').val();
-//        formData['firstName'] =  $('.myForm1 #firstName').val();
-//        formData['lastName'] =  $('.myForm1 #lastName').val();
-//        formData['email'] =  $('.myForm1 #email').val();
-//        formData['password'] =  $('.myForm1 #password').val();
-//        let roles = [];
-//        $('.myForm1 #listRolesResponse')
-//
-//        $('.myForm1 #firstName').val(data.firstName);
-//        $('.myForm1 #lastName').val(data.lastName);
-//        $('.myForm1 #email').val(data.email);
-//
-//
-//
-//
-//        var href = $(this).attr('href');
-//        $.get(href, function (user, status) {
-//            $('.myForm1 #id').val(user.id);
-//            $('.myForm1 #firstName').val(user.firstName);
-//            $('.myForm1 #lastName').val(user.lastName);
-//            $('.myForm1 #email').val(user.email);
-//            $.each(user.roles, function (index, value) {
-//                var role = value.role.substring(5);
-//                $('.myForm1 #listRolesResponse option:contains("' + role + '")').prop('selected', true);
-//            })
-//        });
-//
-//        $('.myForm1 #EditModal').modal();
-//    });
-//});
-/*
- Функция на событие: пользователей ввел данные о новом ЮЗЕРЕ нажал кнопку "SUBMIT"
-*/
-
-//$(function (){
-//    $('#formToCreateUser').on('click', function (event) {
-//        var data = $('#formToCreateUser').serializeArray();
-//        console.log(data);
-//    //кнопка SUBMIT
-//   //$("#formToCreateUser input").each(function (){
-//
-//   //    let key = $(this).attr('name');
-//   //    let value = $(this).attr()
-//
-//   //}
-//    });
-
-//})
 async function postData(url, data) {
     // Default options are marked with *
     const response = await fetch(url, {
@@ -203,26 +131,36 @@ async function putData(url, data) {
 
 function editTable(JSON){
     let  ID = JSON.id;
-    alert(ID);
     $(`#id${JSON.id}`).text(`${JSON.id}`);
-    $(`#firstName${JSON.id}`).text('ХЛЕББББББББББББББББББББББББББББББББББББББ');
+    $(`#firstName${JSON.id}`).text(JSON.id);
+    $(`#lastName${JSON.id}`).text(JSON.lastName);
+    $(`#email${JSON.id}`).text(JSON.email);
+    $(`#password${JSON.id}`).text(JSON.password);
+    $(`#listRolesResponse${JSON.id}`).text(JSON.listRolesResponse);
 
    // $('#data').children(`[id = JSON.id]`).find("#firstName').text(JSON.firstName);
    // console.log( $('#data').children([id = `${JSON.id}`]).find('#firstName'));
     }
 
+ function addRoles(){
+  $('#select1') .empty();
+  let roles = getAllRoles();
+  $.each(roles, function (i, p) {
+      $(`#select1`).append($('<option></option>')).val(p).html()
+
+  })
+
+ }
 
 
+$(".myForm1 select option").val(getAllRoles());
+$(".myForm2 option:selected").val(getAllRoles());
 
 $('document').ready(function () {
     const button = $("#btnCreate")
     button.click(
         function () {
-            // let user = ;
 
-            // let user = {
-            //     firstName: 'John',
-            // };
             let dest = {};
             $("#formToCreateUser")
                 .serializeArray()
