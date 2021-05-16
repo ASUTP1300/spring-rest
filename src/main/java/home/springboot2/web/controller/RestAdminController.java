@@ -1,6 +1,8 @@
 package home.springboot2.web.controller;
 
 
+import home.springboot2.web.DTO.UserDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,10 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URL;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/admin2", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,8 +73,8 @@ public class RestAdminController {
     }
 
     @GetMapping(value = "/roles")
-    public List<String> allRoles() {
-        return roleService.getNamesRole(roleRepository.findAll());
+    public List<Role> allRoles() {
+        return roleRepository.findAll();
     }
 
 
@@ -83,6 +88,15 @@ public class RestAdminController {
     @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     public User createWithLocation(@RequestBody User user){
      return    userService.save(user);
+    }
+
+    @PutMapping (value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void editWithLocation(@RequestBody UserDto userDto){
+        ModelMapper modelMapper = new ModelMapper();
+        User user = modelMapper.map(userDto, User.class);
+
+        user.setRoles(roleService.getRoles(userDto));
+        userService.update(user);
     }
 
 

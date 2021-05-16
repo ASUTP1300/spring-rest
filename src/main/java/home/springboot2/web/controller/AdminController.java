@@ -40,50 +40,15 @@ public class AdminController {
         this.userService = userService;
     }
 
-    /**
-     *
-     *
-     * @param model
-     * @param principal
-     * @return
-     */
     @GetMapping()
     public String example(Model model, Principal principal) {
         User user = new User();
         User userActive = userService.getByFirstName(principal.getName());
         List<Role> listRoles = roleRepository.findAll();
-
         Authentication logInUser = SecurityContextHolder.getContext().getAuthentication();
 
         User user4 = (User) logInUser.getPrincipal();
         model.addAttribute("userActive", userActive);
         return "admin/index2";
     }
-
-
- //  @GetMapping("/{id}")
- //  public String show(@PathVariable("id") long id, Model model) {
- //      model.addAttribute("user", userService.getById(id));
-
- //      return "admin/getById";
- //  }
-
-
-  // @PostMapping("/{id}")
-  // public String update(@ModelAttribute("user") User user,
-  //                      @RequestParam("roleNames") List<String> roles) {
-  //     user.setRoles(roleService.getRoleByName(roles));
-  //     userService.update(user);
-  //     return "redirect:/admin";
-  // }
-
-  //  @DeleteMapping("/delete")
-  //  public String delete(@ModelAttribute("user") User user) {
-  //      userService.remove(user.getId());
-  //      return "redirect:/admin";
-  //  }
-
-
-
-
 }

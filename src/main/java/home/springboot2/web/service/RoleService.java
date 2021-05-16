@@ -1,6 +1,7 @@
 package home.springboot2.web.service;
 
 
+import home.springboot2.web.DTO.UserDto;
 import home.springboot2.web.model.Role;
 
 import java.util.List;
@@ -12,5 +13,5 @@ public interface RoleService {
 
     public List<String> getNamesRole(List<Role> listRoles);
 
-
+    public Set<Role> getRoles(UserDto userDto);
 }
