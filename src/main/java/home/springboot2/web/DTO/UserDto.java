@@ -29,8 +29,6 @@ public class UserDto {
         this.roles = roles;
     }
 
-
-
     public String getFirstName() {
         return firstName;
     }
@@ -78,7 +76,4 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
-
 }

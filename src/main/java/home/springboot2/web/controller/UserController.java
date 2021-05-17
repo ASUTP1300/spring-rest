@@ -22,11 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public String showResults(final HttpServletRequest request, Principal principal, Model model) {
-        String currentUser = principal.getName();
-        User user = userService.getByFirstName(currentUser);
-        String message = "Добро пожаловать";
-        model.addAttribute("user", user);
+    public String showResults() {
         return "user/getById";
     }
 }

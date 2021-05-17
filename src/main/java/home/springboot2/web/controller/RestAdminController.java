@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/admin2", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestAdminController {
 
     private UserService userService;
@@ -53,23 +53,9 @@ public class RestAdminController {
         this.userService = userService;
     }
 
-    /**
-     *
-     *
-     * @param model
-     * @param principal
-     * @return
-     */
-    @GetMapping()
-    public List<User> allUsers(Model model, Principal principal) {
-        User user = new User();
-        User userActive = userService.getByFirstName(principal.getName());
-        List<Role> listRoles = roleRepository.findAll();
 
-        model.addAttribute("user", user);
-        model.addAttribute("userActive", userActive);
-        model.addAttribute("users", userService.listUsers());
-        model.addAttribute("listRoles", listRoles);
+    @GetMapping()
+    public List<User> allUsers() {
         return userService.listUsers();
     }
 
@@ -77,7 +63,6 @@ public class RestAdminController {
     public List<Role> allRoles() {
         return roleRepository.findAll();
     }
-
 
     @GetMapping("/{id}")
     public User show(@PathVariable("id") long id, Model model) {
@@ -106,7 +91,6 @@ public class RestAdminController {
     @DeleteMapping (value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteWithLocation(@RequestBody UserDto userDto){
         userService.remove(userDto.getId());
-
     }
 
     @GetMapping("/getOne")
@@ -115,4 +99,9 @@ public class RestAdminController {
         return userService.getById(id);
     }
 
+
+    @GetMapping("/auth")
+    public User auth( Principal principal) {
+        return userService.getByFirstName(principal.getName());
+    }
 }

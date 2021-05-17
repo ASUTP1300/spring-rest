@@ -1,18 +1,18 @@
+document.body.onload = function () {
+
+    f3();
+    updateTable();
+    logInUser();
+};
 
 
-
-
-f3();
-
-updateTable();
-
-async function f3(){
-    let url = "admin2/roles";
+async function f3() {
+    let url = "api/roles";
     let response = await fetch(url);
     var options = await response.json();
     console.log(options);
     $('select*').empty();
-    $.each(options, function(i, p) {
+    $.each(options, function (i, p) {
         role = p.role;
         $("select*").append($('<option></option>').val(role.substring(5)).html(role.substring(5)));
     });
@@ -20,9 +20,8 @@ async function f3(){
 }
 
 
-
 function updateTable() {
-    fetch("/admin2").then(
+    fetch("/api").then(
         res => {
             res.json().then(
                 data => {
@@ -35,13 +34,35 @@ function updateTable() {
                             temp += `<td id='firstName${u.id}'>` + u.firstName + "</td>";
                             temp += `<td id='lastName${u.id}'>` + u.lastName + "</td>";
                             temp += `<td id='email${u.id}'>` + u.email + "</td>";
-                            temp += `<td id='roles${u.id}' >` + u.roleNames.map(function(name) {
-                                return  " " + name.substring(5);}) +  "</td>";
-                            temp += "<td>" + `<a  class='btn btn-info eBtn' id='butn1' onclick= 'editUser(${u.id})'>Edit</a>` + "</td>";
-                            temp += "<td>" + `<a  class='btn btn-danger delBtn' id='butn2' onclick= 'deleteUser(${u.id})'>Delete</a>` + "</td></tr>";
+                            temp += `<td id='roles${u.id}' >` + u.roleNames.map(function (name) {
+                                return " " + name.substring(5);
+                            }) + "</td>";
+                            temp += "<td>" +
+                                `<a  class='btn btn-info eBtn' id='butn1' onclick= 'editUser(${u.id})'>Edit</a>`
+                                + "</td>";
+                            temp += "<td>" +
+                                `<a  class='btn btn-danger delBtn' id='butn2' onclick= 'deleteUser(${u.id})'>Delete</a>`
+                                + "</td></tr>";
                         })
+
                         document.getElementById("data").innerHTML = temp;
                     }
+                }
+            )
+        }
+    );
+}
+
+function logInUser() {
+    fetch("api/auth").then(
+        res => {
+            res.json().then(
+                data => {
+                    console.log(data);
+                    let roles = data.roleNames.map(function (name) {
+                        return " " + name.substring(5);
+                    })
+                    $('#header').text(data.email + ' with role ' + `${roles}`);
                 }
             )
         }
@@ -63,8 +84,9 @@ function updateUserTable() {
                             temp += `<td id='firstName${u.id}'>` + u.firstName + "</td>";
                             temp += `<td id='lastName${u.id}'>` + u.lastName + "</td>";
                             temp += `<td id='email${u.id}'>` + u.email + "</td>";
-                            temp += `<td id='roles${u.id}' >` + u.roleNames.map(function(name) {
-                                return  " " + name.substring(5);}) +  "</td>";
+                            temp += `<td id='roles${u.id}' >` + u.roleNames.map(function (name) {
+                                return " " + name.substring(5);
+                            }) + "</td>";
 
                         })
                         document.getElementById("data2").innerHTML = temp;
@@ -76,22 +98,8 @@ function updateUserTable() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function editUser(id) {
-    fetch("/admin2/" + id).then(
+    fetch("/api/" + id).then(
         res => {
             res.json().then(
                 data => {
@@ -99,7 +107,7 @@ function editUser(id) {
                     $('.myForm1 #firstName').val(data.firstName);
                     $('.myForm1 #lastName').val(data.lastName);
                     $('.myForm1 #email').val(data.email);
-                    $('.myForm1 #password').val(data.password).hide();
+                    $('.myForm1 #password').val(data.password);
                     $.each(data.roleNames, function (index, value) {
                         var role = value.substring(5);
                         $('.myForm1 #roles option:contains("' + role + '")').prop('selected', true);
@@ -113,7 +121,7 @@ function editUser(id) {
 
 
 function deleteUser(id) {
-    fetch("/admin2/" + id).then(
+    fetch("/api/" + id).then(
         res => {
             res.json().then(
                 data => {
@@ -134,16 +142,17 @@ function deleteUser(id) {
         }
     )
 }
+
 /*
  Функция на событие - пользователей нажал кнопку "DELETE"
 */
-$('#butnDel').on('click',function (){
+$('#butnDel').on('click', function () {
     let arr = $("#formToDelete ").serializeArray();
     let user = add(arr);
     let userJSON = getUserJSON(user);
 
     //Отправка на сервер
-    delData("/admin2/delete",userJSON);
+    delData("/api/delete", userJSON);
 
     //Обновление таблицы
     updateTable();
@@ -154,30 +163,16 @@ $('#butnDel').on('click',function (){
 })
 
 
-
-
-
-
-
-
-//})
-
-
-
-
-
 /*
  Функция на событие - пользователей нажал кнопку "Add new user""
 */
-$('#butnCreate').on('click',function (){
+$('#butnCreate').on('click', function () {
     let arr = $("#formToCreateUser ").serializeArray();
     let user = add(arr);
     let userJSON = getUserJSON(user);
 
     //Отправка на сервер
-    postData("/admin2/save",userJSON);
-
-    addRowToTable( jsn);
+    postData("/api/save", userJSON);
 
     //Обновление таблицы
     updateTable();
@@ -190,25 +185,23 @@ $('#butnCreate').on('click',function (){
 /*
  Функция на событие - пользователей нажал кнопку "SAVE" в модальном окне Edit"
 */
-$('#butnSaveEdit').on('click',function (){
+$('#butnSaveEdit').on('click', function () {
     let arr = $("#formToEdit ").serializeArray();
     let user = add(arr);
     let userJSON = getUserJSON(user);
-
-     editTable(userJSON);
+    editTable(userJSON);
 
     //Отправка на сервер
-    putData("/admin2/update",userJSON)
+   const cur = putData("/api/update", userJSON);
+   console.log(cur);
 
 })
 
 
-$('#butnCloseEdit').on('click',function (){
+$('#butnCloseEdit').on('click', function () {
     $('#roles option').prop('selected', false);
 
 });
-
-
 
 
 async function postData(url, data) {
@@ -219,10 +212,10 @@ async function postData(url, data) {
             'Content-Type': 'application/json'
         },
     });
-   const  json =  await response.json();
-   console.log(json);
-   console.log('Успех:', JSON.stringify(json));
-   return JSON.stringify(json);
+    const json = await response.json();
+    console.log(json);
+    console.log('Успех:', JSON.stringify(json));
+    return JSON.stringify(json);
 }
 
 
@@ -234,7 +227,7 @@ async function putData(url, data) {
             'Content-Type': 'application/json'
         },
     });
-    const  json = response.text();
+    const json = response.json();
     console.log('Успех:', JSON.stringify(json));// parses JSON response into native JavaScript objects
 }
 
@@ -246,52 +239,42 @@ async function delData(url, data) {
             'Content-Type': 'application/json'
         },
     });
-    const  json = response.text();
+    const json = response.text();
     console.log('Успех:', JSON.stringify(json));// parses JSON response into native JavaScript objects
 }
 
-function addRowToTable(u){
+function addRowToTable(u) {
     let temp = "";
     var d = document;
-       // tbody = document.getElementById("data")
-        var tbody = d.getElementById('tableUsers').getElementsByTagName('TBODY')[0];
-          temp += `<tr id= 'tr${u.id}' >`;
-          temp += `<td id='id${u.id}'>` + u.id + "</td>";
-          temp += `<td id='firstName${u.id}'>` + u.firstName + "</td>";
-          temp += `<td id='lastName${u.id}'>` + u.lastName + "</td>";
-          temp += `<td id='email${u.id}'>` + u.email + "</td>";
-          temp += `<td id='roles${u.id}' >` + u.roles +  "</td>";
-          temp += "<td>" + `<a  class='btn btn-info eBtn' id='butn1' onclick= 'editUser(${u.id})'>Edit</a>` + "</td>";
-          temp += "<td>" + '<a  class="btn btn-danger delBtn" id="butn2">Delete</a>' + "</td></tr>"
+    // tbody = document.getElementById("data")
+    var tbody = d.getElementById('tableUsers').getElementsByTagName('TBODY')[0];
+    temp += `<td id='id${u.id}'>` + u.id + "</td>";
+    temp += `<td id='firstName${u.id}'>` + u.firstName + "</td>";
+    temp += `<td id='lastName${u.id}'>` + u.lastName + "</td>";
+    temp += `<td id='email${u.id}'>` + u.email + "</td>";
+    temp += `<td id='roles${u.id}' >` + u.roles + "</td>";
+    temp += "<td>" + `<a  class='btn btn-info eBtn' id='butn1' onclick= 'editUser(${u.id})'>Edit</a>` + "</td>";
+    temp += "<td>" + '<a  class="btn btn-danger delBtn" id="butn2">Delete</a>';
 
-        //Создаем строку таблицы и добавляем ее
-        var row = d.createElement("TR");
+    //Создаем строку таблицы и добавляем ее
+    var row = d.createElement("TR");
+    row.attr('id', `'tr${u.id}'`)
 
-        tbody.appendChild(row);
+    tbody.appendChild(row);
 
-        row.innerHTML =temp
+    row.innerHTML = temp
 }
 
 
-
-
-
-
-
-
-
-
-
-function editTable(JSON){
-    let  ID = JSON.id;
+function editTable(JSON) {
+    let ID = JSON.id;
     $(`#id${JSON.id}`).text(`${JSON.id}`);
-    $(`#firstName${JSON.id}`).text(JSON.id);
+    $(`#firstName${JSON.id}`).text(JSON.firstName);
     $(`#lastName${JSON.id}`).text(JSON.lastName);
     $(`#email${JSON.id}`).text(JSON.email);
     $(`#password${JSON.id}`).text(JSON.password);
     $(`#roles${JSON.id}`).text(JSON.roles);
 }
-
 
 
 $('document').ready(function () {
@@ -302,8 +285,8 @@ $('document').ready(function () {
             $("#formToCreateUser")
                 .serializeArray()
                 .map(input => dest[input.name] = input.value);
-                alert(dest);
-                postData("/admin2/save", dest);
+            alert(dest);
+            postData("/api/save", dest);
         })
 });
 
@@ -316,86 +299,7 @@ $('document2').ready(function () {
 });
 
 
-/*$('document3').ready(function () {
-    const button = $("#saveEdit")
-    button.click(
-
-        function () {
-
-
-
-
-             let user = {
-
-                 firstName: 'John',
-                 roles: ["ADMIN", "USER"],
-
-             };
-            let dest = {};
-         //  var m = $("#formToEdit ").serializeArray();
-            var result = { };
-
-
-         //  $.each($("#formToEdit ").serializeArray(), function() {
-         //      result[this.name] = this.value;
-         //  });
-
-         //  console.log(result);
-
-            let arr = $("#formToEdit ").serializeArray();
-          // let newArr = arr.reduce((acc, curr) => {
-          //     if(acc.some(obj => obj.name === curr.name)) {
-          //         acc.forEach(obj => {
-          //             if(obj.name === curr.name) {
-          //                 obj.value = [obj.value , curr.value];
-          //             }
-          //         });
-          //     } else {
-          //         acc.push(curr);
-          //     }
-          //     return acc;
-          // }, []);
-
-          //  console.log(newArr);
-
-
-
-
-            console.log(result);
-            console.log(user);
-            editTable(dest);
-
-            result = add(arr);
-
-            let user2 = {
-                id: result.id,
-                firstName: result.firstName,
-                lastName: result.lastName,
-                email : result.email,
-                password : result.password,
-                roles: result.roles,
-            };
-
-
-            putData("/admin2/update",user2);
-
-
-
-            $(".myForm1").modal("hide");
-
-        })
-
-
-
-
-
-
-
-
-
-});*/
-
-function add( result) {
+function add(result) {
     let arr2 = [];
     $.each(result, function () {
         if (this.name === 'roles') {
@@ -408,13 +312,13 @@ function add( result) {
     return result;
 }
 
-function getUserJSON(user){
+function getUserJSON(user) {
     return {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
-        email : user.email,
-        password : user.password,
+        email: user.email,
+        password: user.password,
         roles: user.roles,
     };
 }

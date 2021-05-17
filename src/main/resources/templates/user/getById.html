@@ -49,7 +49,7 @@
         <div class="row">
             <div class="col-md-12 " style="background-color: black">
                 <div class="box">
-                        <b style="color: white; font-size:150%" th:text="${user.email} + ' '+'with roles: User'" id="header">  </b>
+                        <b style="color: white; font-size:150%" id="header">  </b>
                         <a class="btn btn-dark "  href="/logout">Logout</a>
                 </div>
             </div>
@@ -60,9 +60,9 @@
         <div class="row">
             <div class="col-md-2 no-margin" style="background-color: white; height: 1200px" id="secondColumn">
                 <br/>
-                <form th:method="GET" th:action="@{/user}">
-                    <button class="btn btn-primary btn-block " id="btn1">User</button>
-                </form>
+
+                    <a class="btn btn-primary btn-block " href="/user">User</a>
+
             </div>
             <div class="col-md-10" style="background-color: whitesmoke; height: 1200px" id="thirdColumn">
                 <br/>
@@ -70,7 +70,6 @@
                 <h2>
                     <b> User information-page</b>
                 </h2>
-
                     <div class="card">
                         <div class="card-block">
                             <table class="table table-striped">
@@ -108,7 +107,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script  src="/main.js" > </script>
+<script  src="/main_user.js" > </script>
 
 </body>
 </html>
