@@ -27,8 +27,6 @@ public class UserController {
         User user = userService.getByFirstName(currentUser);
         String message = "Добро пожаловать";
         model.addAttribute("user", user);
-        model.addAttribute("message", message);
-
         return "user/getById";
     }
 }

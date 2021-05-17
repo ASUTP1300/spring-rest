@@ -45,9 +45,6 @@ public class AdminController {
         User user = new User();
         User userActive = userService.getByFirstName(principal.getName());
         List<Role> listRoles = roleRepository.findAll();
-        Authentication logInUser = SecurityContextHolder.getContext().getAuthentication();
-
-        User user4 = (User) logInUser.getPrincipal();
         model.addAttribute("userActive", userActive);
         return "admin/index2";
     }

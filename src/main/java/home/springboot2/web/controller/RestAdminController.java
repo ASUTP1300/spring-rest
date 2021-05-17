@@ -4,6 +4,7 @@ package home.springboot2.web.controller;
 import home.springboot2.web.DTO.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
@@ -80,25 +81,33 @@ public class RestAdminController {
 
     @GetMapping("/{id}")
     public User show(@PathVariable("id") long id, Model model) {
-       // model.addAttribute("user", userService.getById(id));
-
         return userService.getById(id);
     }
 
     @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User createWithLocation(@RequestBody User user){
-     return    userService.save(user);
+    public  User createWithLocation(@RequestBody UserDto userDto){
+        ModelMapper modelMapper = new ModelMapper();
+
+        User user = modelMapper.map(userDto, User.class);
+        user.setRoles(roleService.getRoles(userDto));
+        userService.save(user);
+        return user;
     }
 
     @PutMapping (value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public void editWithLocation(@RequestBody UserDto userDto){
         ModelMapper modelMapper = new ModelMapper();
-        User user = modelMapper.map(userDto, User.class);
 
+        User user = modelMapper.map(userDto, User.class);
         user.setRoles(roleService.getRoles(userDto));
         userService.update(user);
     }
 
+    @DeleteMapping (value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteWithLocation(@RequestBody UserDto userDto){
+        userService.remove(userDto.getId());
+
+    }
 
     @GetMapping("/getOne")
     @ResponseBody

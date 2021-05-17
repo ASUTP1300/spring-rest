@@ -4,6 +4,8 @@
 
 f3();
 
+updateTable();
+
 async function f3(){
     let url = "admin2/roles";
     let response = await fetch(url);
@@ -19,7 +21,7 @@ async function f3(){
 
 
 
-f = function updateTable() {
+function updateTable() {
     fetch("/admin2").then(
         res => {
             res.json().then(
@@ -36,7 +38,7 @@ f = function updateTable() {
                             temp += `<td id='roles${u.id}' >` + u.roleNames.map(function(name) {
                                 return  " " + name.substring(5);}) +  "</td>";
                             temp += "<td>" + `<a  class='btn btn-info eBtn' id='butn1' onclick= 'editUser(${u.id})'>Edit</a>` + "</td>";
-                            temp += "<td>" + '<a  class="btn btn-danger delBtn" id="butn2">Delete</a>' + "</td></tr>";
+                            temp += "<td>" + `<a  class='btn btn-danger delBtn' id='butn2' onclick= 'deleteUser(${u.id})'>Delete</a>` + "</td></tr>";
                         })
                         document.getElementById("data").innerHTML = temp;
                     }
@@ -46,7 +48,47 @@ f = function updateTable() {
     );
 }
 
-f();
+
+function updateUserTable() {
+    fetch("/user").then(
+        res => {
+            res.json().then(
+                data => {
+                    console.log(data);
+                    if (data.length > 0) {
+                        let temp = "";
+                        data.forEach((u) => {
+                            temp += `<tr id= 'tr${u.id}' >`;
+                            temp += `<td id='id${u.id}'>` + u.id + "</td>";
+                            temp += `<td id='firstName${u.id}'>` + u.firstName + "</td>";
+                            temp += `<td id='lastName${u.id}'>` + u.lastName + "</td>";
+                            temp += `<td id='email${u.id}'>` + u.email + "</td>";
+                            temp += `<td id='roles${u.id}' >` + u.roleNames.map(function(name) {
+                                return  " " + name.substring(5);}) +  "</td>";
+
+                        })
+                        document.getElementById("data2").innerHTML = temp;
+                    }
+                }
+            )
+        }
+    );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function editUser(id) {
     fetch("/admin2/" + id).then(
@@ -69,6 +111,61 @@ function editUser(id) {
     )
 }
 
+
+function deleteUser(id) {
+    fetch("/admin2/" + id).then(
+        res => {
+            res.json().then(
+                data => {
+                    $('.myForm2 input').attr('readonly', 'readonly');
+                    $('.myForm2 select').attr('readonly', 'readonly');
+                    $('.myForm2 #id').val(data.id);
+                    $('.myForm2 #firstName').val(data.firstName);
+                    $('.myForm2 #lastName').val(data.lastName);
+                    $('.myForm2 #email').val(data.email);
+                    $('.myForm2 #password').val(data.password).hide();
+                    $.each(data.roleNames, function (index, value) {
+                        var role = value.substring(5);
+                        $('.myForm2 #roles option:contains("' + role + '")').prop('selected', true);
+                    })
+                    $('.myForm2 #delModal').modal();
+                }
+            )
+        }
+    )
+}
+/*
+ Функция на событие - пользователей нажал кнопку "DELETE"
+*/
+$('#butnDel').on('click',function (){
+    let arr = $("#formToDelete ").serializeArray();
+    let user = add(arr);
+    let userJSON = getUserJSON(user);
+
+    //Отправка на сервер
+    delData("/admin2/delete",userJSON);
+
+    //Обновление таблицы
+    updateTable();
+
+    //Очистка формы
+    $('#formToDelete').trigger('reset');
+
+})
+
+
+
+
+
+
+
+
+//})
+
+
+
+
+
 /*
  Функция на событие - пользователей нажал кнопку "Add new user""
 */
@@ -76,10 +173,17 @@ $('#butnCreate').on('click',function (){
     let arr = $("#formToCreateUser ").serializeArray();
     let user = add(arr);
     let userJSON = getUserJSON(user);
-    addRowToTable(userJSON);
 
     //Отправка на сервер
-   // postData("/admin2/save",userJSON)
+    postData("/admin2/save",userJSON);
+
+    addRowToTable( jsn);
+
+    //Обновление таблицы
+    updateTable();
+
+    //Очистка формы
+    $('#formToCreateUser').trigger('reset');
 })
 
 
@@ -91,10 +195,11 @@ $('#butnSaveEdit').on('click',function (){
     let user = add(arr);
     let userJSON = getUserJSON(user);
 
-    editTable(userJSON);
+     editTable(userJSON);
 
     //Отправка на сервер
     putData("/admin2/update",userJSON)
+
 })
 
 
@@ -114,8 +219,10 @@ async function postData(url, data) {
             'Content-Type': 'application/json'
         },
     });
-   const  json = response.text();
+   const  json =  await response.json();
+   console.log(json);
    console.log('Успех:', JSON.stringify(json));
+   return JSON.stringify(json);
 }
 
 
@@ -131,7 +238,17 @@ async function putData(url, data) {
     console.log('Успех:', JSON.stringify(json));// parses JSON response into native JavaScript objects
 }
 
-
+async function delData(url, data) {
+    const response = await fetch(url, {
+        method: 'DELETE',
+        body: JSON.stringify(data),// body data type must match "Content-Type" header
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    const  json = response.text();
+    console.log('Успех:', JSON.stringify(json));// parses JSON response into native JavaScript objects
+}
 
 function addRowToTable(u){
     let temp = "";
@@ -145,9 +262,7 @@ function addRowToTable(u){
           temp += `<td id='email${u.id}'>` + u.email + "</td>";
           temp += `<td id='roles${u.id}' >` + u.roles +  "</td>";
           temp += "<td>" + `<a  class='btn btn-info eBtn' id='butn1' onclick= 'editUser(${u.id})'>Edit</a>` + "</td>";
-          temp += "<td>" + '<a  class="btn btn-danger delBtn" id="butn2">Delete</a>' + "</td></tr>";
-       // tbody.append(temp);
-
+          temp += "<td>" + '<a  class="btn btn-danger delBtn" id="butn2">Delete</a>' + "</td></tr>"
 
         //Создаем строку таблицы и добавляем ее
         var row = d.createElement("TR");
@@ -303,9 +418,6 @@ function getUserJSON(user){
         roles: user.roles,
     };
 }
-function countRows(){
-    document.getElementById("data").innerHTML = temp;
-    let tabl = document.getElementById("tableUsers");
-    alert(tabl.rows.length);
-}
+
+
 

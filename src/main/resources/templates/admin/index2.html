@@ -147,26 +147,26 @@
                                 <div class="container no-margin2">
                                     <form id = "formToCreateUser">
                                         <div class="form-group">
-                                            <label for="recipient-name"
+                                            <label for="firstName"
                                                    class="col-form-label d-flex justify-content-center">First name:</label>
                                             <input type="text" class="form-control" id="firstName" name="firstName">
                                         </div>
                                         <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Last name:</label>
-                                            <input type="text" class="form-control" id="recipient-name" name="LastName">
+                                            <label for="lastName" class="col-form-label">Last name:</label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName">
                                         </div>
                                         <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Email:</label>
-                                            <input type="text" class="form-control" id="recipient-name" name="email">
+                                            <label for="email" class="col-form-label">Email:</label>
+                                            <input type="text" class="form-control" id="email" name="email">
                                         </div>
                                         <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Password:</label>
-                                            <input type="text" class="form-control" id="recipient-name" name="password">
+                                            <label for="password" class="col-form-label">Password:</label>
+                                            <input type="text" class="form-control" id="password" name="password">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect2" class="col-form-label">Role:</label>
-                                            <select multiple class="form-control" size="2" id="exampleFormControlSelect2"
-                                                    name="listRolesResponse">
+                                            <label for="roles" class="col-form-label">Role:</label>
+                                            <select multiple class="form-control" size="2" id="roles"
+                                                    name="roles">
                                             </select>
                                         </div>
                                         <div class="d-flex justify-content-center">
@@ -246,7 +246,7 @@
 <div class="myForm2" >
     <div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form  th:method="DELETE" th:action="@{/admin/delete}">
+        <form  id = "formToDelete">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -277,17 +277,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="listRolesResponse2" class="col-form-label">Role:</label>
-                            <select multiple class="form-control"   id="listRolesResponse2"  name="listRolesResponse">
-                                <option class="filter-option">
-                                </option>
+                            <label for="roles" class="col-form-label">Role:</label>
+                            <select multiple class="form-control"   id="roles"  name="roles">
                             </select>
                         </div>
 
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="button" class="btn btn-primary" id="butnDel" data-dismiss="modal">Delete</button>
                     </div>
                 </div>
             </div>

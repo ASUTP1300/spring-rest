@@ -44,15 +44,13 @@
 
     
 </head>
-<body>
+<body onload="updateUserTable()">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 " style="background-color: black">
                 <div class="box">
-                        <b style="color: white; font-size:150%" th:text="${user.email} + ' '+'with roles: User'">  </b>
-                    <form th:method="POST" th:action="@{/logout}">
-                        <button class="btn btn-danger " type="submit">Logout</button>
-                    </form>
+                        <b style="color: white; font-size:150%" th:text="${user.email} + ' '+'with roles: User'" id="header">  </b>
+                        <a class="btn btn-dark "  href="/logout">Logout</a>
                 </div>
             </div>
         </div>
@@ -90,19 +88,7 @@
                                     <th>Role</th>
                                 </tr>
                                     </thead>
-                                <tbody>
-                                <tr>
-                                    <td th:utext="${user.id}">No</td>
-                                    <td th:utext="${user.firstName}">No</td>
-                                    <td th:utext="${user.lastName}">No</td>
-                                    <td th:utext="${user.email}">No</td>
-                                    <td>
-                        <span th:each="role:${user.roles}"
-                              th:utext="${#strings.substring(role.role,5) + '; '}">
-                        </span>
-                                    </td>
-
-                                </tr>
+                                <tbody id="data2">
                                 </tbody>
                             </table>
                         </div>
@@ -122,7 +108,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="../../static/main.js" th:src="@{/main.js}"> </script>
+<script  src="/main.js" > </script>
 
 </body>
 </html>

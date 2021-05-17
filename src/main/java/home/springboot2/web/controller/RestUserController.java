@@ -4,6 +4,9 @@ import home.springboot2.web.model.User;
 import home.springboot2.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +28,7 @@ public class RestUserController {
     }
 
     @GetMapping
-    public  User user(final HttpServletRequest request, Principal principal, Model model) {
-        String currentUser = principal.getName();
-        User user = userService.getByFirstName(currentUser);
-        String message = "Добро пожаловать";
-        model.addAttribute("user", user);
-        model.addAttribute("message", message);
-
-        return user;
+    public  User user(Principal principal) {
+        return userService.getByFirstName(principal.getName());
     }
 }
