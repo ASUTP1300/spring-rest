@@ -21,8 +21,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
-    public String showResults() {
-        return "user/getById";
-    }
+
+        @GetMapping("/user")
+        public String showResults() {
+            return "user/getById";
+        }
 }
